@@ -9,7 +9,7 @@ import android.os.*;
 public class MyGdxGame implements ApplicationListener
 {
 	BitmapFont font;
-	public static String opcode;
+	public static String opcode="";
 	public static boolean pause = false;
 	Texture texture;
 	SpriteBatch batch;
