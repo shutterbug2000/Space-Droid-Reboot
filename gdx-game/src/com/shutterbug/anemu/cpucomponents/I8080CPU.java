@@ -12,6 +12,7 @@ public class I8080CPU extends CPU
 
 	public char[] memory = new char[0x4000];
 	public char pc;
+	public char sp = 0x2400;
 	public char[] registers = new char[7];
 	//char 
 	
@@ -43,12 +44,33 @@ public class I8080CPU extends CPU
 			
 			break;
 			}
+			case 0x11:{
+				LXIDD16 lxidd16 = new LXIDD16();
+				lxidd16.execute(this);
+				
+				break;
+			}
+			case 0x21:{ 
+			
+			LXIHD16 lxihd16 = new LXIHD16();
+			lxihd16.execute(this);
+			
+			break;
+			}
 			case 0xC3:{
 				//JMP adr
 				JMP jmp = new JMP();
 				jmp.execute(this);
 			
 			break;
+			}
+			case 0xCD:{
+				// This opcode does: (SP-1)<-PC.hi;(SP-2)<-PC.lo;SP<-SP+2;PC=adr
+				memory[sp - 2] = (char)(pc & 0xff);
+				memory[sp - 1] = (char)(pc >> 8);
+				sp += 2;
+				pc = (char)((memory[pc+2] << 8) | memory[pc+1]);
+				break;
 			}
 			default:{
 				Log.d("unknown opcode",Integer.toHexString((int)opcode)); //umm ok
