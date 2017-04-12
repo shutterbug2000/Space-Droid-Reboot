@@ -50,6 +50,13 @@ public class I8080CPU extends CPU
 				
 				break;
 			}
+			case 0x13:{
+				
+				INXD inxd = new INXD();
+				inxd.execute(this);
+				
+				break;
+			}
 			case 0x21:{ 
 			
 			LXIHD16 lxihd16 = new LXIHD16();
